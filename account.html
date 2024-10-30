@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - AI Virtual Try-On</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .account-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .account-container h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .account-container p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .account-details {
+            margin-bottom: 40px;
+        }
+
+        .account-details h3 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .account-details p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .account-container button {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .account-container button:hover {
+            background-color: #388E3C;
+        }
+
+        .account-container .logout-link {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .account-container .logout-link a {
+            color: #ff6347;
+            text-decoration: none;
+        }
+
+        .account-container .logout-link a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="account-container">
+        <h2>Welcome, [User Name]</h2>
+        <p>Manage your account details, view your try-on history, and update your preferences.</p>
+
+        <!-- Account Details Section -->
+        <div class="account-details">
+            <h3>Account Information</h3>
+            <p><strong>Email:</strong> user@example.com</p>
+            <p><strong>Member Since:</strong> January 2023</p>
+        </div>
+
+        <!-- Buttons for Updating or Logging Out -->
+        <button onclick="window.location.href='edit-profile.html'">Edit Profile</button>
+        <button onclick="window.location.href='tryon-history.html'" style="margin-left: 10px;">View Try-On History</button>
+
+        <!-- Logout Link -->
+        <div class="logout-link">
+            <p>Want to log out? <a href="login.html">Log Out</a></p>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Mentor: Prof. S.K. Gupta</p>
+        <p>Copyright © 2025 Artemis</p>
+    </footer>
+
+</body>
+</html>
