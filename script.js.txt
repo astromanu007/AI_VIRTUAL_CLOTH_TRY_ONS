@@ -1,0 +1,104 @@
+document.getElementById('tryon-button').addEventListener('click', async () => {
+    // Select the uploaded files
+    const clothInput = document.getElementById('cloth-upload').files[0];
+    const userInput = document.getElementById('user-upload').files[0];
+
+    if (!clothInput || !userInput) {
+        alert("Please upload both images.");
+        return;
+    }
+
+    // Convert files to base64
+    const clothBase64 = await toBase64(clothInput);
+    const userBase64 = await toBase64(userInput);
+
+    // Prepare payload
+    const payload = {
+        "start_node_id": "axi1-start",
+        "end_node_id": "AQ6K-end",
+        "result_node_id": "AQ6K-end",
+        "node_settings": {
+            "axi1-start": {
+                "data": {
+                    "garment_image": clothBase64,
+                    "garment_description": "Uploaded cloth",
+                    "Your photo": userBase64
+                }
+            }
+        }
+    };
+
+    // Send request to the backend API
+    try {
+        const response = await fetch("https://app.scade.pro/api/v1/scade/flow/47431/execute", {
+            method: "POST",
+            headers: {
+                "Authorization": "Basic ZmRkNzM1YzUtMTBlMS00MjgyLTgwZWUtOWE3ZDE1YmFhZDMyOmlqV1drZVkxYXJQVFRmMFhVZXJiTUNlejhOVlVoeg==",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.status === 2) {
+            alert("Processing... Please wait!");
+            pollTaskStatus(result.id);
+        } else {
+            console.error(result);
+            alert("Error processing request.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to connect to the backend.");
+    }
+});
+
+// Function to convert image files to Base64
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+    });
+}
+
+// Poll the backend for task status
+async function pollTaskStatus(taskId) {
+    const pollUrl = `https://app.scade.pro/api/v1/scade/task/${taskId}`;
+    try {
+        while (true) {
+            const response = await fetch(pollUrl, {
+                headers: {
+                    "Authorization": "Basic ZmRkNzM1YzUtMTBlMS00MjgyLTgwZWUtOWE3ZDE1YmFhZDMyOmlqV1drZVkxYXJQVFRmMFhVZXJiTUNlejhOVlVoeg=="
+                }
+            });
+            const result = await response.json();
+
+            if (result.status === 3) {
+                alert("Task completed!");
+                displayResult(result.result);
+                break;
+            } else if (result.status === 4) {
+                alert("Task failed!");
+                break;
+            } else {
+                console.log("Still processing...");
+                await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
+            }
+        }
+    } catch (error) {
+        console.error("Error polling task status:", error);
+    }
+}
+
+// Display the result in the interface
+function displayResult(result) {
+    const resultContainer = document.createElement('div');
+    resultContainer.innerHTML = `
+        <h2>Try-On Result</h2>
+        <img src="${result}" alt="Try-On Result" />
+    `;
+    document.body.appendChild(resultContainer);
+}
